@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register</title>
+  <style>
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+      -webkit-text-fill-color: #fff !important;
+    }
+  </style>
+  <link rel="stylesheet" href="register.css" />
+  <link rel="icon" type="image/x-icon" href="images/LTD-logo.jpg" />
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+  <div class="area">
+    <ul class="circles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <section>
+      <div class="form-box">
+        <div class="form-value">
+          <form method="POST" action="../api/register">
+            <h2>Register</h2>
+            <div class="inputbox">
+              <ion-icon name="person"></ion-icon>
+              <input type="text" id="fullname" name="fullname" required>
+              <label for="fullname">Full Name</label>
+            </div>
+            <div class="inputbox">
+              <ion-icon name="mail-outline"></ion-icon>
+              <input type="email" id="email" name="email" required>
+              <label for="email">Email</label>
+            </div>
+            <div class="inputbox">
+              <div class="password-container">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" id="password" name="password" required>
+                <label for="password">Password</label>
+                <span class="password-toggle" onclick="togglePasswordVisibility('password', this)">
+                  <ion-icon name="eye"></ion-icon>
+                </span>
+              </div>
+            </div>
+            <div class="inputbox">
+              <div class="password-container">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <label for="confirmPassword">Confirm Password</label>
+                <span class="password-toggle" onclick="togglePasswordVisibility('confirmPassword', this)">
+                  <ion-icon name="eye"></ion-icon>
+                </span>
+              </div>
+            </div>
+            <button type="submit"> Sign Up</button">
+              <div id="message-container"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    function togglePasswordVisibility(inputId, toggleElement) {
+      const inputElement = document.getElementById(inputId);
+      const iconElement = toggleElement.querySelector('ion-icon');
+      if (inputElement.type === 'password') {
+        inputElement.type = 'text';
+        iconElement.name = 'eye-off';
+      } else {
+        inputElement.type = 'password';
+        iconElement.name = 'eye';
+      }
+    }
+  </script>
+</body>
+
+</html>
