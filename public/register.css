@@ -28,7 +28,6 @@ section {
     justify-content: center;
     align-items: center;
     z-index: 2;
-
 }
 
 h2 {
@@ -298,4 +297,103 @@ nav a {
 
 nav a:hover {
     color: orange;
+}
+
+.errorMessage {
+    background-color: #2c2c2c2c;
+    color: #2c2c2c;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    position: absolute;
+    top: 190px;
+    /* adjust as needed */
+    left: 3%;
+    /* center horizontally */
+    transform: translateX(0%);
+    /* center horizontally */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 9999;
+}
+
+.errorMessage1 {
+    background-color: #2c2c2c2c;
+    color: #2c2c2c;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    position: absolute;
+    top: 270px;
+    /* adjust as needed */
+    left: 10%;
+    /* center horizontally */
+    transform: translateX(0%);
+    /* center horizontally */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.popup {
+    background-color: #2c2c2c2c;
+    color: #2c2c2c;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    position: absolute;
+    top: 185px;
+    left: 1%;
+    transform: translateX(0%);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+
+.popup.fade {
+    opacity: 0;
+}
+
+.close-button {
+    cursor: pointer;
+}
+
+.close-button span {
+    z-index: 9999;
+}
+
+.popup1 {
+    background-color: #2c2c2c2c;
+    color: #2c2c2c;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    position: absolute;
+    top: 270px;
+    left: 10%;
+    transform: translateX(0%);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 9999;
+    transition: opacity 0.5s ease-out;
+}
+
+.popup1.fade {
+    opacity: 0;
+}
+
+.close-button {
+    cursor: pointer;
+}
+
+.close-button span {
+    z-index: 9999;
 }

@@ -25,7 +25,6 @@
     <header>
       <nav>
         <ul>
-          <li><a href="/">Home</a></li>
           <li><a href="/login">Login</a></li>
           <li><a href="/register">Register</a></li>
         </ul>
@@ -44,7 +43,6 @@
                 <input type="text" id="fname" name="firstname" required />
                 <label id="firstName" for="fname">First Name</label>
               </div>
-
               <!--Last Name-->
               <div class="inputbox">
                 <ion-icon name="person"></ion-icon>
@@ -52,33 +50,48 @@
                 <label id="lastName" for="lname">Last Name</label>
               </div>
             </div>
-            <div class="inputbox">
-              <ion-icon name="mail-outline"></ion-icon>
-              <input type="email" id="email" name="email" required>
-              <label for="email">Email</label>
-            </div>
-            <div class="inputbox">
-              <div class="password-container">
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" id="password" name="password" required>
-                <label for="password">Password</label>
-                <span class="password-toggle" onclick="togglePasswordVisibility('password', this)">
-                  <ion-icon name="eye"></ion-icon>
-                </span>
+            <% if (errorMessage) { %>
+              <div class="popup-container">
+                <div class="popup">
+                  <span class="close-button" onclick="closePopup()">×</span>
+                  <%= errorMessage %>
+                </div>
               </div>
-            </div>
-            <div class="inputbox">
-              <div class="password-container">
-                <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
-                <label for="confirmPassword">Confirm Password</label>
-                <span class="password-toggle" onclick="togglePasswordVisibility('confirmPassword', this)">
-                  <ion-icon name="eye"></ion-icon>
-                </span>
-              </div>
-            </div>
-            <button type="submit"> Sign Up</button">
-              <div id="message-container"></div>
+              <% } %>
+                <div class="inputbox">
+                  <ion-icon name="mail-outline"></ion-icon>
+                  <input type="email" id="email" name="email" required>
+                  <label for="email">Email</label>
+                </div>
+                <% if (errorMessage1) { %>
+                  <div class="popup-container">
+                    <div class="popup1">
+                      <span class="close-button" onclick="closePopup()">×</span>
+                      <%= errorMessage1 %>
+                    </div>
+                  </div>
+                  <% } %>
+                    <div class="inputbox">
+                      <div class="password-container">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" id="password" name="password" required>
+                        <label for="password">Password</label>
+                        <span class="password-toggle" onclick="togglePasswordVisibility('password', this)">
+                          <ion-icon name="eye"></ion-icon>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="inputbox">
+                      <div class="password-container">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        <label for="confirmPassword">Confirm Password</label>
+                        <span class="password-toggle" onclick="togglePasswordVisibility('confirmPassword', this)">
+                          <ion-icon name="eye"></ion-icon>
+                        </span>
+                      </div>
+                    </div>
+                    <button type="submit"> Sign Up</button">
           </form>
         </div>
       </div>
@@ -96,6 +109,27 @@
       <li></li>
     </ul>
   </div>
+  <script>
+    function closePopup() {
+      const popup = document.querySelector('.popup');
+      popup.style.opacity = 0.4;
+      popup.remove();
+    }
+  </script>
+
+  <script>
+    function closePopup() {
+      document.querySelector('.popup').classList.add('fade');
+      setTimeout(function () {
+        document.querySelector('.popup').remove();
+      }, 500);
+    }
+    setTimeout(function () {
+      closePopup();
+    }, 5000);
+
+  </script>
+
   <script>
     function togglePasswordVisibility(inputId, toggleElement) {
       const inputElement = document.getElementById(inputId);
