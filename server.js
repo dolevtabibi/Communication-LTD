@@ -10,6 +10,7 @@ const logger = require('morgan');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const homeRouter = require('./routes/home');
+const changePasswordRouter = require('./routes/newPassword');
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
@@ -29,6 +30,7 @@ app.use(session({
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/', homeRouter);
+app.use('/newPassword', changePasswordRouter);
 
 // Connect to the database using the connect method
 db.connect((err) => {

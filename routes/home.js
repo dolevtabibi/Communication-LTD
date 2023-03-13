@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/home', (req, res) => {
+router.get('/', (req, res) => {
     const fullName = req.session.fullName;
     if (fullName) {
         res.render('home.ejs', { fullName });
     } else {
-        res.redirect('login.ejs');
+        res.redirect('login');
     }
 });
 
