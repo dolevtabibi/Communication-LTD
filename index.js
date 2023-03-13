@@ -3,6 +3,7 @@ require('dotenv').config();
 const logger = require('morgan');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
+const homeRouter = require('./routes/home');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const cookie = require("cookie-parser");
@@ -25,10 +26,13 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // Use the register router for the /register URL (back-end)
-app.use('/api/register', registerRouter);
+app.use('/register', registerRouter);
 
-// Use the register router for the /register URL
-// app.use('/api/login', loginRouter);
+// Use the login router for the /login URL
+app.use('/login', loginRouter);
+
+// Use the login router for the /login URL
+app.use('/home', homeRouter);
 
 // Create a new connection using the createConnection method
 const db = require("./db-config");
@@ -41,14 +45,18 @@ db.connect((err) => {
 
 // Define a route that renders the register page (front)
 app.get('/register', function (req, res) {
-  res.render("register.ejs")
+  res.status(200).render('register.ejs')
 });
 
 // Define a route that renders the login page (front)
 app.get('/login', function (req, res) {
-  res.render("login.ejs")
+  res.status(200).render('login.ejs')
 });
 
+app.get('/', function (req, res) {
+  const fullName = 'Example example';
+  res.status(200).render('home.ejs', { fullName })
+});
 
 // Start the server and listen for incoming requests on port 3000
 app.listen(5000, () => {
