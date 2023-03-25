@@ -16,7 +16,7 @@ router.get('/', function (req, res) {
 
 function query(sql, args) {
     return new Promise((resolve, reject) => {
-        db.query(sql, args, (err, rows) => {
+        db.userDbConfig.query(sql, args, (err, rows) => {
             if (err) {
                 return reject(err);
             }
@@ -26,8 +26,8 @@ function query(sql, args) {
 }
 
 router.post('/', async function (req, res) {
-    if (!req.session || !req.session.fullName) {
-        return res.redirect('/login');
+    if (!req.session) {
+        return res.redirect('/');
     }
     const userId = req.session.userid;
     const fullname = req.session.fullName;

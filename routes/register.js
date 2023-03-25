@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
                             // Handle successful registration
                             console.log("user created successfully");
                             req.flash('success', 'You have successfully registered. Please login to continue.');
-                            res.status(200).render('home.ejs');
+                            res.status(200).render('login.ejs', { messages: req.flash('error') });
                         }
                     });
                 }
