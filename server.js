@@ -9,7 +9,6 @@ const logger = require('morgan');
 const favicon = require('serve-favicon');
 const path = require('path');
 
-
 // Create an HTTPS server with TLS 1.2
 const fs = require('fs');
 
@@ -20,8 +19,11 @@ const https = require('https');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const dashboardRouter = require('./routes/dashboard');
-const changePasswordRouter = require('./routes/newPassword');
+const newPasswordRouter = require('./routes/newPassword');
 const logoutRouter = require('./routes/logout');
+const resetpasswordRouter = require('./routes/password-reset');
+const verficationCodeRouter = require('./routes/verficationCode');
+const choosePasswordRouter = require('./routes/choosePassword');
 
 
 app.set('view engine', 'ejs')
@@ -59,8 +61,11 @@ app.use((req, res, next) => {
 app.use('/register', registerRouter);
 app.use('/', loginRouter);
 app.use('/dashboard', dashboardRouter);
-app.use('/newPassword', changePasswordRouter);
+app.use('/newPassword', newPasswordRouter);
 app.use('/logout', logoutRouter);
+app.use('/password-reset', resetpasswordRouter);
+app.use('/verficationCode', verficationCodeRouter);
+app.use('/choosePassword', choosePasswordRouter);
 
 // Connect to the database using the connect method
 db.userDbConfig.connect((err) => {
@@ -68,14 +73,18 @@ db.userDbConfig.connect((err) => {
   console.log('Connected to MySQL database!');
 });
 
+const privateKeyPath = process.env.PRIVATE_KEY_PATH || 'C:/Users/dolev/Desktop/localhost.key';
+const certificatePath = process.env.CERTIFICATE_PATH || 'C:/Users/dolev/Desktop/localhost.crt';
+
 // Load the SSL certificate and private key
-const privateKey = fs.readFileSync('C:/Users/dolev/Desktop/localhost.key');
-const certificate = fs.readFileSync('C:/Users/dolev/Desktop/localhost.crt');
+const privateKey = fs.readFileSync(privateKeyPath);
+const certificate = fs.readFileSync(certificatePath);
+
 
 // Create an HTTPS server with TLS 1.2
 const server = https.createServer({ key: privateKey, cert: certificate, secureProtocol: 'TLSv1_2_method' }, app);
 
-// Start the server and listen for incoming requests on port 433
+// Start the server and listen for incoming requests on port 443
 const port = process.env.PORT || 443;
 server.listen(port, () => {
   console.log(`HTTPS server running on ${port}`);
