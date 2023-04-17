@@ -8,7 +8,6 @@ router.get('/', requireAuth, (req, res) => {
         console.log("if (res.locals.user)", res.locals.user)
         // user is logged in, show homepage
         const fullName = req.session.user.fullName;
-        console.log("im here", fullName)
         res.render('home.ejs', { fullName, user: req.session.user });
     } else {
         // user is not logged in, redirect to login page

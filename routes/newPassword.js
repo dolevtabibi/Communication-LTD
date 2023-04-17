@@ -10,7 +10,8 @@ router.get('/', function (req, res) {
     if (!req.session) {
         return res.redirect('/'); // If the user is not logged in, redirect them to the login page
     }
-    return res.status(200).render('newPassword.ejs', { errorMessage: null, errorMessage1: null })
+    console.log("in get", req.session)
+    return res.status(200).render('newPassword.ejs', { user: req.session.user, errorMessage: null, errorMessage1: null })
 });
 
 
@@ -18,21 +19,26 @@ function query(sql, args) {
     return new Promise((resolve, reject) => {
         db.userDbConfig.query(sql, args, (err, rows) => {
             if (err) {
+                console.error('Error in query:', err);
                 return reject(err);
             }
-            resolve([rows]);
+            resolve(rows);
         });
     });
 }
+
 
 router.post('/', async function (req, res) {
     if (!req.session) {
         return res.redirect('/');
     }
-    const userId = req.session.userid;
-    const fullname = req.session.fullName;
+    console.log("in post", req.session)
+    const userId = req.session.user.userid;
+    const fullname = req.session.user.fullName;
 
     console.log('Full Name:', fullname);
+    console.log('userId:', userId);
+
 
     const { currentPassword, newPassword, newPasswordConfirm } = req.body;
 
@@ -54,11 +60,17 @@ router.post('/', async function (req, res) {
     if (newPassword !== newPasswordConfirm) {
         return res.status(400).render('newPassword.ejs', { errorMessage: null, errorMessage1: 'Passwords do not match!' });
     }
-
     // Compare the current password to the user's password in the database
     const getUserPasswordQuery = `SELECT password FROM users WHERE id = ?`;
-    const [rows] = await query(getUserPasswordQuery, [userId]);
-    const passwordMatch = await bcrypt.compare(currentPassword, rows[0].password);
+    const dbPasswordResult = await query(getUserPasswordQuery, [userId]);
+    if (dbPasswordResult.length === 0) {
+        // handle error - user not found
+        return res.status(401).json({ error: 'User not found' });
+    }
+    const dbPassword = dbPasswordResult[0].password;
+    console.log("dbPassword= ", dbPassword)
+    const passwordMatch = await bcrypt.compare(currentPassword, dbPassword)
+    console.log("passwordMatch = ", passwordMatch)
 
     if (!passwordMatch) {
         return res.status(400).render('newPassword', { errorMessage: 'The current password is incorrect.', errorMessage1: null });
@@ -71,8 +83,6 @@ router.post('/', async function (req, res) {
     const getUserPasswordHistoryQuery = `SELECT password_history FROM users WHERE id = ?`;
     const [historyRows] = await query(getUserPasswordHistoryQuery, [userId]);
     const passwordHistory = historyRows[0]?.password_history ? JSON.parse(historyRows[0].password_history) : [];
-
-    console.log('User password history:', passwordHistory);
 
     // Check if the new password matches any of the last three passwords
     const previousPasswords = passwordHistory.slice(0, 3).map((password) => bcrypt.compareSync(newPassword, password));
