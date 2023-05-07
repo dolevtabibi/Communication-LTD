@@ -84,7 +84,6 @@ footer {
     border: 1px solid rgba(255, 255, 255, 0.18);
     animation: animate-circle 25s linear infinite;
     bottom: -150px;
-
 }
 
 .circles li:nth-child(1) {
@@ -178,6 +177,46 @@ footer {
 
 }
 
+.searchQuery-box {
+
+    width: 700px;
+    height: 650px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px;
+    z-index: 2;
+}
+
+.searchQuery-box button {
+    margin-top: 20px;
+}
+
+.searchQuery-box input {
+    margin-top: 130px;
+}
+
+.searchQuery-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.searchQuery-box h2 {
+    margin-top: -200px;
+}
+
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .form-container {
     display: flex;
     justify-content: center;
@@ -185,8 +224,8 @@ footer {
 }
 
 .form-box {
-    width: 400px;
-    height: 470px;
+    width: 700px;
+    height: 650px;
     background: transparent;
     border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 20px;
@@ -203,14 +242,16 @@ h2 {
     font-size: 2em;
     color: #fff;
     text-align: center;
+    bottom: 10px;
 }
+
 
 .inputbox {
     position: relative;
     margin: 30px 0;
     width: 310px;
     border: none;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid #ffffff;
     padding-bottom: 5px;
 }
 
@@ -261,4 +302,36 @@ button {
     cursor: pointer;
     font-size: 1em;
     font-weight: 600;
+}
+
+input {
+    background: transparent;
+}
+
+.searchQuery-box input {
+
+    background: transparent;
+    border-radius: 10px;
+    outline: auto;
+    color: #000000;
+}
+
+::placeholder {
+    color: rgba(0, 0, 0, 0.979);
+    opacity: 1;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    text-align: center;
+    padding: 8px;
+}
+
+th {
+    background-color: #ddd;
 }

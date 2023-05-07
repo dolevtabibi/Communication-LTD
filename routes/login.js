@@ -51,7 +51,6 @@ router.post('/', loginLimiter, (req, res) => {
                     };
                     console.log("cookie name is: ", req.session.user.fullName)
                     res.render('home.ejs', { fullName: req.session.user.fullName });
-
                 }
             });
         }
