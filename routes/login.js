@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const db = require("../db-config");
 const loginLimiter = require("./loginLimiter");
 
+
 router.get('/', function (req, res) {
     if (req.session.user) {
         console.log("fullName", req.session.user.fullName)

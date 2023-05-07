@@ -1,8 +1,9 @@
 const rateLimit = require("express-rate-limit");
+const loginAttempts = process.env.LOGIN_ATTEMPTS || 3;
 
 const loginLimiter = rateLimit({
     windowMs: 30 * 1000, // 30 seconds
-    max: 3, // max 3 attempts
+    max: loginAttempts, // max 3 attempts
     keyGenerator: function (req, res) {
         return req.ip; // generate a unique key based on the IP address of the client
     },

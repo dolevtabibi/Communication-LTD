@@ -5,6 +5,9 @@ const db = require("../db-config");
 const validator = require('validator');
 const badPasswords = ["mypassword", "password1234", "1234567890", "0987654321"];
 
+const minLength = process.env.PASSWORD_LENGTH || 10;
+const complexity = process.env.PASSWORD_COMPLEXITY || 'uppercase,lowercase,numbers,special_characters';
+const history = process.env.PASSWORD_HISTORY || 3;
 
 router.get('/', function (req, res) {
     if (!req.session) {
@@ -51,10 +54,30 @@ router.post('/', async function (req, res) {
         return res.status(400).render('newPassword.ejs', { errorMessage: 'Password is too weak!', errorMessage1: null });
     }
 
-    // // Validate the new password
-    // if (!validator.isStrongPassword(newPassword, { minLength: 10 })) {
-    //     return res.status(400).render('newPassword', { errorMessage: null, errorMessage1: 'The password must be at least 10 characters long and contain at least one lowercase letter, one uppercase letter, one number, and one special character.' });
-    // }
+    // Validate the new password
+    if (!validator.isStrongPassword(newPassword, {
+        minLength,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+        returnScore: false,
+        pointsPerUnique: 1,
+        pointsPerRepeat: 0.5,
+        pointsForContainingLower: 10,
+        pointsForContainingUpper: 10,
+        pointsForContainingNumber: 10,
+        pointsForContainingSymbol: 10,
+        excludeSimilarCharacters: false,
+        exclude: [],
+        history: history
+    })) {
+        return res.status(400).render('newPassword', {
+            errorMessage: null,
+            errorMessage1: `The password must be at least ${minLength} characters long and meet the following complexity requirements: ${complexity}. 
+            Password must not match last ${history} passwords and cannot contain dictionary words.`
+        });
+    }
 
     // Check if the password and confirmPassword match
     if (newPassword !== newPasswordConfirm) {
