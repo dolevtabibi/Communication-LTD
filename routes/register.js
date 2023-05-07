@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const db = require("../db-config");
+const validator = require('validator');
 const badPasswords = ["mypassword", "password1234", "1234567890", "0987654321"];
+
+const minLength = process.env.PASSWORD_LENGTH || 10;
+const complexity = process.env.PASSWORD_COMPLEXITY || 'uppercase,lowercase,numbers,special_characters';
+const history = process.env.PASSWORD_HISTORY || 3;
 
 // Add Morgan logging middleware
 const morgan = require('morgan');
@@ -25,6 +30,28 @@ router.post('/', async (req, res) => {
         return res.status(400).render('register.ejs', { messages: req.flash('error') });
     }
 
+    // Validate strong password
+    if (!validator.isStrongPassword(password, {
+        minLength: minLength,
+        complexity: true,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+        returnScore: false,
+        pointsPerUnique: 1,
+        pointsPerRepeat: 0.5,
+        pointsForContainingLower: 10,
+        pointsForContainingUpper: 10,
+        pointsForContainingNumber: 10,
+        pointsForContainingSymbol: 10,
+        excludeSimilarCharacters: false,
+        exclude: [],
+    })) {
+        req.flash('error', `'The password must be at least ${minLength} characters long and meet the following complexity requirements: ${complexity}.`)
+        return res.status(400).render('register.ejs', { messages: req.flash('error'), ...req.body }
+        )
+    }
     // Check if the password and confirmPassword match
     if (password !== confirmPassword) {
         req.flash('error', 'Passwords do not match.');

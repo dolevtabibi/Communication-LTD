@@ -56,7 +56,9 @@ router.post('/', async function (req, res) {
 
     // Validate the new password
     if (!validator.isStrongPassword(newPassword, {
-        minLength,
+        minLength: minLength,
+        history: history,
+        complexity: true,
         minLowercase: 1,
         minUppercase: 1,
         minNumbers: 1,
@@ -70,7 +72,6 @@ router.post('/', async function (req, res) {
         pointsForContainingSymbol: 10,
         excludeSimilarCharacters: false,
         exclude: [],
-        history: history
     })) {
         return res.status(400).render('newPassword', {
             errorMessage: null,
@@ -108,13 +109,13 @@ router.post('/', async function (req, res) {
     const passwordHistory = historyRows[0]?.password_history ? JSON.parse(historyRows[0].password_history) : [];
 
     // Check if the new password matches any of the last three passwords
-    const previousPasswords = passwordHistory.slice(0, 3).map((password) => bcrypt.compareSync(newPassword, password));
+    const previousPasswords = passwordHistory.slice(0, history - 1).map((password) => bcrypt.compareSync(newPassword, password));
     if (previousPasswords.some((match) => match)) {
         return res.status(400).render('newPassword', { errorMessage: null, errorMessage1: 'The new password must not match any of the last three passwords.' });
     }
 
     // Hash the previous passwords and add the current password to the user's password history
-    const previousPasswordHashes = passwordHistory.slice(0, 2).map((password) => bcrypt.hashSync(password, 10));
+    const previousPasswordHashes = passwordHistory.slice(0, history - 1).map((password) => bcrypt.hashSync(password, 10));
     const currentPasswordHashed = bcrypt.hashSync(newPassword, 10);
     const updatedPasswordHistory = [currentPasswordHashed, ...previousPasswordHashes];
 

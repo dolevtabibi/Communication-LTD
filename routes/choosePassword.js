@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const db = require("../db-config");
 const validator = require('validator');
 const badPasswords = ["mypassword", "password1234", "1234567890", "0987654321"];
+const history = process.env.PASSWORD_HISTORY || 3;
 
 router.get('/', function (req, res) {
     return res.status(200).render('choosePassword.ejs', { messages: null })
@@ -60,13 +61,13 @@ router.post('/', async function (req, res) {
     console.log('User password history:', passwordHistory);
 
     // Check if the new password matches any of the last three passwords
-    const previousPasswords = passwordHistory.slice(0, 3).map((password) => bcrypt.compareSync(newPassword, password));
+    const previousPasswords = passwordHistory.slice(0, history).map((password) => bcrypt.compareSync(newPassword, password));
     if (previousPasswords.some((match) => match)) {
         return res.status(400).render('choosePassword', { messages: 'The new password must not match any of the last three passwords.' });
     }
 
     // Hash the previous passwords and add the current password to the user's password history
-    const previousPasswordHashes = passwordHistory.slice(0, 2).map((password) => bcrypt.hashSync(password, 10));
+    const previousPasswordHashes = passwordHistory.slice(0, history - 1).map((password) => bcrypt.hashSync(password, 10));
     const currentPasswordHashed = bcrypt.hashSync(newPassword, 10);
     const updatedPasswordHistory = [currentPasswordHashed, ...previousPasswordHashes];
 
