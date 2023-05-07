@@ -82,30 +82,39 @@
         <br>
         <div class="form-container">
           <div class="form-box">
-            <form method="POST" action="/dashboard/addClient">
-              <h2>Add new client</h2>
-              <div class="inputbox">
-                <ion-icon name="person"></ion-icon>
-                <input type="text" id="firstname" name="firstname" required>
-                <label for="firstname">First Name</label>
+            <% if (typeof messages !=='undefined' && messages.length> 0) { %>
+              <div class="error-message">
+                <% for (var i=0; i < messages.length; i++) { %>
+                  <p>
+                    <%= messages[i] %>
+                  </p>
+                  <% } %>
               </div>
-              <div class="inputbox">
-                <ion-icon name="person"></ion-icon>
-                <input type="text" id="lastname" name="lastname" required>
-                <label for="lastname">Last Name</label>
-              </div>
-              <div class="inputbox">
-                <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" id="email" name="email" required>
-                <label for="email">Email</label>
-              </div>
-              <div class="inputbox">
-                <input type="text" id="phone" name="phoneNumber" required>
-                <label for="phone">Phone</label>
-                <ion-icon name="call-outline"></ion-icon>
-              </div>
-              <button id="addUserBtn">Add user</button>
-            </form>
+              <% } %>
+                <form method="POST" action="/dashboard/addClient">
+                  <h2>Add new client</h2>
+                  <div class="inputbox">
+                    <ion-icon name="person"></ion-icon>
+                    <input type="text" id="firstname" name="firstname" required>
+                    <label for="firstname">First Name</label>
+                  </div>
+                  <div class="inputbox">
+                    <ion-icon name="person"></ion-icon>
+                    <input type="text" id="lastname" name="lastname" required>
+                    <label for="lastname">Last Name</label>
+                  </div>
+                  <div class="inputbox">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="text" id="email" name="email" required>
+                    <label for="email">Email</label>
+                  </div>
+                  <div class="inputbox">
+                    <input type="text" id="phone" name="phoneNumber" required>
+                    <label for="phone">Phone</label>
+                    <ion-icon name="call-outline"></ion-icon>
+                  </div>
+                  <button id="addUserBtn">Add user</button>
+                </form>
           </div>
         </div>
       </div>
