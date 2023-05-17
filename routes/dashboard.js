@@ -125,7 +125,7 @@ router.post('/addClient', function (req, res) {
                             // Handle successful client addition
                             console.log("client added successfully");
                             req.flash('success', `${firstname} added successfully.`);
-                            res.status(200).render('home.ejs', { messages: req.flash('success') });
+                            res.status(200).render('home.ejs', { messages: req.flash('success'),fullName: req.session.user.fullName});
                         }
                     });
                 }
