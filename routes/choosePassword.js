@@ -26,7 +26,7 @@ router.post('/', async function (req, res) {
         return res.redirect('/login');
     }
     const email = req.session.email;
-
+    console.log("im here");
     console.log('email:', email);
 
     const { newPassword, newPasswordConfirm } = req.body;

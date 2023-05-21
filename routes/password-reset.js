@@ -62,7 +62,7 @@ router.post('/', async (req, res) => {
                     res.render('password-reset.ejs', { messages: req.flash('error') });
                 } else {
                     console.log('Email sent: ' + info.response);
-                    res.redirect('/', { messages: req.flash('error') });
+                    res.redirect('/verficationCode');
                 }
             });
         }
