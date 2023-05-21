@@ -7,7 +7,7 @@ const badPasswords = ["mypassword", "password1234", "1234567890", "0987654321"];
 const history = process.env.PASSWORD_HISTORY || 3;
 
 router.get('/', function (req, res) {
-    return res.status(200).render('choosePassword.ejs', { messages: "null" })
+    return res.status(200).render('choosePassword.ejs', { messages: null })
 });
 
 function query(sql, args) {
