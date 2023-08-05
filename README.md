@@ -18,7 +18,7 @@
 Getting Started
 To explore the communication services, security features, and MySQL database integration of Communication-LTD, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/communication-ltd.git`
+1. Clone the repository: `git clone https://github.com/dolevtabibi/communication-ltd.git`
 2. Navigate to the project directory: `cd communication-ltd`
 3. Install the necessary dependencies: `npm install`
 
